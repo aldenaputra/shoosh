@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransactionHistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::resource('/TransactionHistory', TransactionHistoryController::class);
+Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history.index');
+Route::get('transaction-history/show/{id}', [TransactionHistoryController::class, 'show'])->name('transaction-history.show');
