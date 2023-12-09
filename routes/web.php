@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,12 @@ Route::get('/navbar', function () {
 Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'getAllElement']);
 
 Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'processingRequest'])->name('processingRequest');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
