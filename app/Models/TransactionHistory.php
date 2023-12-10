@@ -19,6 +19,6 @@ class TransactionHistory extends Model
 
     public function shoe()
     {
-        return $this->belongsTo(shoe::class, 'id');
+        return $this->belongsTo(shoe::class, 'shoeid');
     }
 }

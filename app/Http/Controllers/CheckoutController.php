@@ -120,6 +120,9 @@ class CheckoutController extends BaseController
         $payment_method = payment_method::where('name', $selected_payment_method)->first();
         $total_balance = $payment_method->balance;
 
+        $cart = session()->get('cart', []);
+        $shoes = shoe::where('id', "=", $cart['shoeid'])->first();
+
         if($total_balance < $total_payment && $total_balance != -1){
             return redirect()->route('processingRequest')->with('error', 'Total balance is lower than the total price!');
         }
@@ -138,7 +141,9 @@ class CheckoutController extends BaseController
                 $payment_method->balance = $new_balance;
                 $payment_method->save();
 
-                $cart = session()->get('cart', []);
+                $temp = $shoes->stock - $cart['quantity'];
+                $shoes->update(['stock' => $temp]);
+
                 $transactionhistory = new TransactionHistory([
                     'userid' => $cart['userid'],
                     'shoeid' => $cart['shoeid'],
