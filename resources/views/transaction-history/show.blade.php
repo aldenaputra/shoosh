@@ -29,7 +29,7 @@
                         <p style="font-size:18px">Order Date: </p>
                     </div>
                     <div class="col-6 text-end">
-                        <p style="font-size:18px">Oct 12, 2023</p>
+                        <p style="font-size:18px">{{$transaction->created_at}}</p>
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                         <p style="font-size:18px">Address: </p>
                     </div>
                     <div class="col-6 text-end">
-                        <p style="font-size:18px">Kemanggisan No. 123</p>
+                        <p style="font-size:18px">{{$transaction->userid->address}}</p>
                     </div>
                 </div>
             </div>
@@ -49,10 +49,10 @@
                         <p style="font-size:18px">Payment Method: </p>
                     </div>
                     <div class="col-6 text-end">
-                        <p style="font-size:18px">Virtual BCA</p>
+                        <p style="font-size:18px">{{$transaction->payment_method}}</p>
                     </div>
                 </div>
-            </div>                
+            </div>
         </div>
         <hr>
         <h4>Order Detail</h4>
@@ -60,13 +60,13 @@
             <div class="mb-3 col">
                 <div class="d-flex flex-md-row flex-column mx-2 flex-wrap">
                     <div class="col-md-2">
-                        <img src="{{ asset('images/men1 5.png') }}" alt="shoos" class="img-fluid rounded-end rounded-start"/>
+                        <img src="{{ asset($transaction->image) }}" alt="shoos" class="img-fluid rounded-end rounded-start"/>
                     </div>
-                
+
                     <div class="col">
-                        <p class="fw-bold" style=" font-size:18px">Naik Water Force</p>
-                        <p class="fw-light" style=" font-size:18px">Men 42</p>
-                        <p class="fw-bold" style=" font-size:18px">Sub-harga Rp. 4.477.000</p>
+                        <p class="fw-bold" style=" font-size:18px">{{$transaction->shoeid->name}}</p>
+                        <p class="fw-light" style=" font-size:18px">{{$transaction->shoeid->shoe_category}} {{$transaction->shoeid->size_EU}}</p>
+                        <p class="fw-bold" style=" font-size:18px">Sub-harga {{$transaction->shoeid->price}}</p>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
             </div>
             <div class="col">
                 <a href="#" class="btn btn-outline-primary mb-3 w-100">Return</a>
-    
+
             </div>
           </div>
     </div>

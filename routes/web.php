@@ -41,8 +41,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Route::resource('/TransactionHistory', TransactionHistoryController::class);
-Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history.index');
-Route::get('transaction-history/show/{id}', [TransactionHistoryController::class, 'show'])->name('transaction-history.show');
+Route::get('/transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history.index');
+Route::get('/transaction-history/show/{id}', [TransactionHistoryController::class, 'show'])->name('transaction-history.show');
 
 Route::get('/productdisplay', [ShoeController::class, 'productdisplay'])->name('productdisplay');
 Route::get('/productdetail/{id}', [ShoeController::class, 'productdetail'])->name('productdetail');
@@ -63,6 +63,5 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::post('/checkout', [CheckoutController::class, 'processingRequest'])->name('processingRequest');
 
-Route::get('/history', [CheckoutController::class, 'processingRequest'])->name('history');
 
 Route::get('/aboutus', [CheckoutController::class, 'processingRequest'])->name('aboutus');

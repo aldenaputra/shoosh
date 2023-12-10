@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\TransactionHistory;
 use Illuminate\Http\Request;
 
 class TransactionHistoryController extends Controller
@@ -11,9 +12,10 @@ class TransactionHistoryController extends Controller
      */
     public function index()
     {
-        return view('transaction-history.index',[
+        $user = Auth::user();
 
-        ]);
+        $transactionbyuser = TransactionHistory::where('userid', $user->id)->get();
+        return view('transaction-history.index', compact('transactionbyuser'));
     }
 
     /**
@@ -37,9 +39,8 @@ class TransactionHistoryController extends Controller
      */
     public function show(string $id)
     {
-        return view('transaction-history.show',[
-            'id' => $id
-        ]);
+        $transaction = TransactionHistory::where('id', '=', $id)->first();
+        return view('transaction-history.show', compact('transaction'));
     }
 
     /**
