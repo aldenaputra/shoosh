@@ -56,6 +56,21 @@
     </head>
     <body class="antialiased">
         <!-- Modal untuk Select voucher-->
+
+        <!--Dummy Cart buat coba-coba-->
+        @php
+            $cart = 
+                ['id' => "2", 
+                "name" => 'Naiki Panda Hitam', 
+                'image' => '-__-', 
+                'type' => 'Women',
+                'shoe_category' => 'Casual',
+                'price' => '1499999',
+                'quantity'  => 1
+                ] 
+            ;
+        @endphp
+
         <div class="modal fade" id="select_voucher" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="select_voucher_label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -136,24 +151,25 @@
                                     @php
                                         $total_price = 0;
                                     @endphp
-                                    @forelse ($products as $product)
-                                        @if ($product->payment_status == false)
+                                    {{-- @forelse ($products as $product) --}}
+                                        {{-- @if ($product->payment_status == false) --}}
+                                            {{-- itu if statement dipake buat ngecek kalo misalkan gk ad payment_status nya true berarti customer dah bayar jadi gk ditampilin --}}
                                             <tr>
                                                 <td class="py-4 col-3 text-center mt-5">
-                                                    <img src="{{ $product->image }}" alt="img">
+                                                    <img src="{{ $cart['image'] }}" alt="img">
                                                 </td>
-                                                <td class="py-4 col-4 text-center mt-5">{{ $product->nama_barang }}</td>
-                                                <td class="py-4 col-2 text-center mt-5">{{ $product->harga_barang }}</td>
-                                                <td class="py-4 col-1 text-center mt-5">{{ $product->quantity }}</td>
-                                                <td class="py-4 col-2 text-center mt-5">{{ ($product->quantity * $product->harga_barang) }}</td>
+                                                <td class="py-4 col-4 text-center mt-5">{{ $cart['name'] }}</td>
+                                                <td class="py-4 col-2 text-center mt-5">Rp. {{ $cart['price'] }}</td>
+                                                <td class="py-4 col-1 text-center mt-5">{{ $cart['quantity'] }}</td>
+                                                <td class="py-4 col-2 text-center mt-5">Rp. {{ ((int)$cart['quantity'] * $cart['price']) }}</td>
                                             </tr>
                                             @php
-                                                $total_price += ($product->quantity * $product->harga_barang);
+                                                $total_price += ((int)$cart['quantity'] * $cart['price']);
                                             @endphp
-                                        @endif
-                                    @empty
-                                        <td colspan="12" class="text-center">No Data!</td>
-                                    @endforelse
+                                        {{-- @endif --}}
+                                    {{-- @empty
+                                        <td colspan="12" class="text-center">No Data!</td> --}}
+                                    {{-- @endforelse --}}
                                 </tbody>
                             </table>
                         </div>
@@ -200,8 +216,8 @@
                     </div>
                     <div class="col-5">
                         <p class="mb-2 mt-3" style="color: white">-</p>
-                        <p class="mt-3" style="font-size: 12px">{{ $total_price }}</p>
-                        <p style="font-size: 12px">{{ 1000 }}</p>
+                        <p class="mt-3" style="font-size: 12px">Rp. {{ $total_price }}</p>
+                        <p style="font-size: 12px">Rp. {{ 1000 }}</p>
                         @if(session('selected_voucher'))
                             <p class="mb-3" style="font-size: 12px">{{ session('selected_voucher')['discount'] }}% from total price</p>
                         @endif
@@ -217,12 +233,12 @@
                             @php
                                 $total_payment = ($total_price * (100 - session('selected_voucher')['discount']) / 100) + 1000;
                             @endphp
-                            <p>Total Payment:  <span id="total_price">{{ $total_payment }}</span></p>
+                            <p>Total Payment:  <span id="total_price">Rp. {{ $total_payment }}</span></p>
                         @else
                             @php
                                 $total_payment = $total_price + 1000
                             @endphp
-                            <p>Total Payment:  <span id="total_price">{{ $total_payment}}</span></p>
+                            <p>Total Payment:  <span id="total_price">Rp. {{ $total_payment}}</span></p>
                         @endif
                     </div>
                     <!--Button buat pindah ke pay-->
@@ -283,6 +299,7 @@
                                 @csrf
                                 <input type="hidden" name="action" value="pay">
                                 <input type="hidden" name="total_payment" value="{{ $total_payment }}">
+                                <input type="hidden" name="cart" value="{{ json_encode($cart) }}">
                                 <input type="hidden" name="selected_payment_method" value="{{ session('selected_payment_method') }}">
                                 <div class="mb-3">
                                     Are you sure to pay all the items?
