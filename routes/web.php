@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ShoeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+Route::get('/productdisplay', [ShoeController::class, 'productdisplay'])->name('productdisplay');
+Route::get('/productdetail/{id}', [ShoeController::class, 'productdetail'])->name('productdetail');
+
