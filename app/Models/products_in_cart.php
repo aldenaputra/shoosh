@@ -12,6 +12,7 @@ class products_in_cart extends Model
 
     protected $fillable = [
         'payment_status',
+        'stock'
     ];
 
     public function user(): BelongsTo{
