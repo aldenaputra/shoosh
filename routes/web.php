@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ShoeController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 
@@ -30,3 +31,11 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/productdisplay', [ShoeController::class, 'productdisplay'])->name('productdisplay');
 Route::get('/productdetail/{id}', [ShoeController::class, 'productdetail'])->name('productdetail');
 
+Route::get('/addtocart/{id}', [CartController::class, 'addtocart'])->name('addtocart');
+Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+
+Route::patch('update', [CartController::class, 'update'])->name('update');
+Route::get('/remove', [CartController::class, 'clearCart'])->name('remove');
+
+Route::get('/increaseQuantity', [CartController::class, 'increaseQuantity'])->name('cart.increaseQuantity');
+Route::get('/decreaseQuantity}', [CartController::class, 'decreaseQuantity'])->name('cart.decreaseQuantity');

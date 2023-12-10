@@ -70,7 +70,18 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
+
+                            {{-- @if (Route::has('cart'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('cart') }}">{{ __('Cart') }}</a>
+                                </li>
+                            @endif --}}
                         @else
+                            {{-- @if (Route::has('cart'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('cart') }}">{{ __('Cart') }}</a>
+                                </li>
+                            @endif --}}
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -99,6 +110,11 @@
         </nav>
 
         <main class="d-flex flex-column min-vh-100">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                    </div>
+            @endif
             @yield('body')
             @yield('content')
         </main>
