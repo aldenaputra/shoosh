@@ -14,6 +14,7 @@
                 background-position: center;
                 background-image: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)), url('/asset/background-AboutUs.png');
                 font-weight: 500;
+                text-align: justify;
             }
             
             .card {
@@ -39,7 +40,7 @@
                             </div>
                                 <div class="card-body" >
                                     <h1 class="text-center" style="font-size: 48px" >About Us</h1>
-
+                                    <hr>
                                     <p>Welcome to SHOOSH, where passion meets fashion and comfort! We are more
                                         than just a shoe store; we are a lifestyle brand dedicated to providing you with
                                         footwear that not only looks great but feels amazing too.</p>
