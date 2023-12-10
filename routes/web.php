@@ -57,3 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::post('/checkout', [CheckoutController::class, 'processingRequest'])->name('processingRequest');
+
+Route::get('/history', [CheckoutController::class, 'processingRequest'])->name('history');
+
+Route::get('/aboutus', [CheckoutController::class, 'processingRequest'])->name('aboutus');

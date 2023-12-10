@@ -126,9 +126,9 @@ class CheckoutController extends BaseController
         if($total_balance == "-1"){
             sleep(1);
             try{
-                return redirect()->route('productdisplay')->with('success', 'payment was made successfully!');
+                return redirect()->route('productdisplay')->with('success', 'Payment was made successfully!');
             }catch(\Exception $e){
-                return redirect()->route('processingRequest')->with('error', 'aa payment failed to be made!');
+                return redirect()->route('processingRequest')->with('error', 'Payment failed to be made!');
             }
         }else{
             sleep(1);
@@ -136,9 +136,9 @@ class CheckoutController extends BaseController
                 $new_balance = $total_balance - $total_payment;
                 $payment_method->balance = $new_balance;
                 $payment_method->save();
-                return redirect()->route('productdisplay')->with('success', 'payment was made successfully!');
+                return redirect()->route('productdisplay')->with('success', 'Payment was made successfully!');
             }catch(\Exception $e){
-                return redirect()->route('processingRequest')->with('error', 'bb payment failed to be made!');
+                return redirect()->route('processingRequest')->with('error', 'Payment failed to be made!');
             }
         }
     }
