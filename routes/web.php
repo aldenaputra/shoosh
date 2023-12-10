@@ -4,6 +4,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ShoeController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\ProfileController;
 
 
@@ -38,6 +39,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+// Route::resource('/TransactionHistory', TransactionHistoryController::class);
+Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history.index');
+Route::get('transaction-history/show/{id}', [TransactionHistoryController::class, 'show'])->name('transaction-history.show');
 
 Route::get('/productdisplay', [ShoeController::class, 'productdisplay'])->name('productdisplay');
 Route::get('/productdetail/{id}', [ShoeController::class, 'productdetail'])->name('productdetail');
