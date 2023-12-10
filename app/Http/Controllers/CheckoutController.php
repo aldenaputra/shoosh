@@ -7,38 +7,47 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use App\Models\dummy_user;
 use App\Models\payment_method;
-use App\Models\products_in_cart;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     private $voucher_code = ([
-        ['id' => "qVL4un", "discount" => 30], 
-        ['id' => "TB0Rad", "discount" => 20], 
-        ['id' => "Rviani", "discount" => 10], 
-        ['id' => "JLl7l5", "discount" => 50], 
+        ['id' => "qVL4un", "discount" => 30],
+        ['id' => "TB0Rad", "discount" => 20],
+        ['id' => "Rviani", "discount" => 10],
+        ['id' => "JLl7l5", "discount" => 50],
         ['id' => "KXGZMp", "discount" => 25],
-        ['id' => "S8KAwy", "discount" => 15], 
-        ['id' => "nGzSk2", "discount" => 35], 
-        ['id' => "3Siicj", "discount" => 40], 
-        ['id' => "QUaDc7", "discount" => 18], 
+        ['id' => "S8KAwy", "discount" => 15],
+        ['id' => "nGzSk2", "discount" => 35],
+        ['id' => "3Siicj", "discount" => 40],
+        ['id' => "QUaDc7", "discount" => 18],
         ['id' => "xvvRUF", "discount" => 22]
     ]);
 
-    public function getAllElement($id = 1){
-        $user = dummy_user::find($id);
+    public function updateadd(Request $request)
+    {
+        $user = Auth::user();
+        $user->update($request->only(['address']));
 
-        $voucher_code = $this->voucher_code;
+        return redirect()->back()->with('success', 'Profile updated successfully!');
+    }
 
-        $payment_method = payment_method::all();
-
-        $products = products_in_cart::where('id_user', $id)
-        ->where('payment_status', false)->get();
-        return view('checkout', compact('user', 'products', 'voucher_code', 'payment_method'));
+    public function index()
+    {
+        if (auth()->check()) {
+            $user = Auth::user();
+            // $userID = $user->id;
+            $voucher_code = $this->voucher_code;
+            $cart = session()->get('cart', []);
+            $payment_method = payment_method::all();
+            return view('checkout', compact('user', 'voucher_code', 'cart', 'payment_method'));
+        } else {
+            return redirect()->route('login')->with('message', 'Please log in to proceed with checkout.');
+        }
     }
 
     public function processingRequest(Request $request){
@@ -47,35 +56,35 @@ class CheckoutController extends BaseController
         switch($action){
             case 'validateVoucher':
                 return $this->validateVoucher($request);
-                break;
+
             case 'validatePaymentMethod':
                 return $this->validatePaymentMethod($request);
-                break;
+
             case 'changeAddress':
                 return $this->changeAddress($request, 1);
-                break;
+
             case 'pay':
                 return $this->pay($request);
-                break;
+
         }
     }
 
-    public function changeAddress(Request $request, $id = 1){
-        $user = dummy_user::find($id);
+    // public function changeAddress(Request $request, $id = 1){
+    //     $user = dummy_user::find($id);
 
-        $request->validate([
-            'alamat' => 'required|string'
-        ]);
+    //     $request->validate([
+    //         'alamat' => 'required|string'
+    //     ]);
 
-       try{
-            sleep(1);
-            $user->alamat = $request->input('alamat');
-            $user->save();
-            return redirect()->route('processingRequest')->with('success', "User address updated successfully!");
-       }catch(\Exception $e){
-            return redirect()->route('processingRequest')->with('error', "User address failed to be updated!");
-       }
-    }
+    //    try{
+    //         sleep(1);
+    //         $user->alamat = $request->input('alamat');
+    //         $user->save();
+    //         return redirect()->route('processingRequest')->with('success', "User address updated successfully!");
+    //    }catch(\Exception $e){
+    //         return redirect()->route('processingRequest')->with('error', "User address failed to be updated!");
+    //    }
+    // }
 
     public function validateVoucher(Request $request){
         $voucherCode = collect($this->voucher_code);
@@ -96,8 +105,8 @@ class CheckoutController extends BaseController
         $total_payment = $request->input('total_payment');
 
         $payment_method = json_decode($request->input('payment_method'), true);
-        $total_balance = $payment_method['total_saldo'];
-        $selected_payment_method = $payment_method['nama_payment_method'];
+        $total_balance = $payment_method['balance'];
+        $selected_payment_method = $payment_method['name'];
 
         sleep(1);
 
@@ -115,8 +124,8 @@ class CheckoutController extends BaseController
     public function pay(Request $request){
         $total_payment = $request->input('total_payment');
         $selected_payment_method = $request->input('selected_payment_method');
-        $payment_method = payment_method::where('nama_payment_method', $selected_payment_method)->first();
-        $total_balance = $payment_method->total_saldo;
+        $payment_method = payment_method::where('name', $selected_payment_method)->first();
+        $total_balance = $payment_method->balance;
 
         if($total_balance < $total_payment && $total_balance != -1){
             return redirect()->route('processingRequest')->with('error', 'Total balance is lower than the total price!');
@@ -125,20 +134,20 @@ class CheckoutController extends BaseController
         if($total_balance == "-1"){
             sleep(1);
             try{
-                return redirect()->route('welcome')->with('success', 'payment was made successfully!');
+                return redirect()->route('productdisplay')->with('success', 'payment was made successfully!');
             }catch(\Exception $e){
-                return redirect()->route('processingRequest')->with('error', 'payment failed to be made!');
-            } 
+                return redirect()->route('processingRequest')->with('error', 'aa payment failed to be made!');
+            }
         }else{
             sleep(1);
             try{
                 $new_balance = $total_balance - $total_payment;
-                $payment_method->total_saldo = $new_balance;
+                $payment_method->balance = $new_balance;
                 $payment_method->save();
-                return redirect()->route('welcome')->with('success', 'payment was made successfully!');
+                return redirect()->route('productdisplay')->with('success', 'payment was made successfully!');
             }catch(\Exception $e){
-                return redirect()->route('processingRequest')->with('error', 'payment failed to be made!');
-            } 
+                return redirect()->route('processingRequest')->with('error', 'bb payment failed to be made!');
+            }
         }
     }
 }

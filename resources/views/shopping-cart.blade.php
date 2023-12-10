@@ -24,7 +24,13 @@
             </td>
         </tr>
 
-        <a href="{{ route('remove') }}" class="btn btn-danger">Remove</a>
+        <div class="md-10">
+            <a href="{{ route('remove') }}" class="btn btn-danger fw-bold">Remove</a>
+        </div>
+
+        <div class="md-10">
+            <a href="{{ route('checkout.index') }}" class="btn bg-primary text-light fw-bold">Checkout</a>
+        </div>
     @else
         <div>EMPTY</div>
     @endif

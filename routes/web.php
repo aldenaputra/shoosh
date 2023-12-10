@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ShoeController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
@@ -18,17 +19,14 @@ use App\Http\Controllers\ProfileController;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
 
-Route::get('/navbar', function () {
-    return view('navbar');
-});
+// Route::get('/navbar', function () {
+//     return view('navbar');
+// });
 
-Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'getAllElement']);
-
-Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'processingRequest'])->name('processingRequest');
 
 Route::get('/', [ShoeController::class, 'productdisplay'])->name('productdisplay');
 
@@ -53,3 +51,10 @@ Route::get('/remove', [CartController::class, 'clearCart'])->name('remove');
 Route::get('/increaseQuantity', [CartController::class, 'increaseQuantity'])->name('cart.increaseQuantity');
 Route::get('/decreaseQuantity}', [CartController::class, 'decreaseQuantity'])->name('cart.decreaseQuantity');
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+});
+
+Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'processingRequest'])->name('processingRequest');
+Route::post('/profile', [CheckoutController::class, 'updateadd'])->name('checkout.updateadd');

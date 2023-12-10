@@ -97,26 +97,26 @@
         </div>
 
 
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 sm:items-center py-4 sm:pt-0">
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
                     <h2>Order Summary</h2>
                 </div>
 
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg d-flex justify-content-center align-items-center">
-                    <form action="{{ route('processingRequest') }}" method="POST" class="col-11" id="changeAddress">
-                        @csrf
-                        <input type="hidden" name="action" value="changeAddress">
+                    <div class="col-11">
                         <div class="form-group mb-3 mt-4">
                             <label for="nama">Customer Name</label>
-                            <input type="text" class="form-control disabled" id="nama" name="nama" value={{ $user->nama }} disabled readonly>
+                            <div class="form-control">{{$user->name}}</div>
                         </div>
+
                         <div class="form-group mb-4">
                             <label for="alamat">Customer Address</label>
-                            <textarea class="form-control" name="alamat" id="alamat" cols="20" rows="3">{{ $user->alamat }}</textarea>
+                            <div class="form-control">{{ $user->address }}</div>
                         </div>
-                        <button type="submit" class="btn btn-primary mb-4" reset-alert-message id="changeAddressBtn">Update Address</button>
-                    </form>
+
+                        <button class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#changeadd">Change Address</button>
+                    </div>
                 </div>
 
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
@@ -136,24 +136,21 @@
                                     @php
                                         $total_price = 0;
                                     @endphp
-                                    @forelse ($products as $product)
-                                        @if ($product->payment_status == false)
+
                                             <tr>
                                                 <td class="py-4 col-3 text-center mt-5">
-                                                    <img src="{{ $product->image }}" alt="img">
+                                                    <img src="{{ asset($cart['image']) }}" alt="img">
                                                 </td>
-                                                <td class="py-4 col-4 text-center mt-5">{{ $product->nama_barang }}</td>
-                                                <td class="py-4 col-2 text-center mt-5">{{ $product->harga_barang }}</td>
-                                                <td class="py-4 col-1 text-center mt-5">{{ $product->quantity }}</td>
-                                                <td class="py-4 col-2 text-center mt-5">{{ ($product->quantity * $product->harga_barang) }}</td>
+                                                <td class="py-4 col-4 text-center mt-5">{{ $cart['name'] }}</td>
+                                                <td class="py-4 col-2 text-center mt-5">{{ $cart['type'] }}</td>
+                                                <td class="py-4 col-1 text-center mt-5">{{ $cart['quantity'] }}</td>
+                                                <td class="py-4 col-2 text-center mt-5">{{ ($cart['price']) }}</td>
                                             </tr>
                                             @php
-                                                $total_price += ($product->quantity * $product->harga_barang);
+                                                $priceAsFloat = floatval(str_replace([','], '', $cart['price']));
+                                                $total_price += ($cart['quantity'] * $priceAsFloat);
                                             @endphp
-                                        @endif
-                                    @empty
-                                        <td colspan="12" class="text-center">No Data!</td>
-                                    @endforelse
+
                                 </tbody>
                             </table>
                         </div>
@@ -248,11 +245,11 @@
                                     <div class="voucher-ticket" style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px">
                                         <div class="row">
                                             <div class="p-3 col-6" style="font-size: 14px">
-                                                {{ $payment_method->nama_payment_method }}
+                                                {{ $payment_method->name }}
                                             </div>
                                             <div class="p-3 col-4" style="font-size: 14px">
-                                                @if($payment_method->total_saldo != -1)
-                                                    Total Balance:   {{ $payment_method->total_saldo }}
+                                                @if($payment_method->balance != -1)
+                                                    Total Balance:   {{ $payment_method->balance }}
                                                 @endif
                                             </div>
                                             <div class="p-3 col-2" style="font-size: 14px">
@@ -326,6 +323,32 @@
                 @endif
             </div>
         </div>
+
+        <div class="modal fade" id="changeadd" tabindex="-1" aria-labelledby="changeaddlabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="changeaddlabel">Change Address</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('checkout.updateadd') }}" method="POST" class="col-11" id="changeAddress">
+                            @csrf
+                            <div class="form-group mb-4">
+                                <label for="address">Customer Address</label>
+                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address', $user->address) }}" required autocomplete="address" autofocus>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Proceed') }}
+                            </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var toast = new bootstrap.Toast(document.getElementById('liveToast'));

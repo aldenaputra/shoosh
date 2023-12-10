@@ -10,6 +10,7 @@ class payment_method extends Model
     use HasFactory;
 
     protected $fillable = [
-        'total_saldo',
+        'name',
+        'balance',
     ];
 }
