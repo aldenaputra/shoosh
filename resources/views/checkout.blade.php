@@ -331,8 +331,9 @@
                         <h5 class="modal-title" id="changeaddlabel">Change Address</h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('checkout.updateadd') }}" method="POST" class="col-11" id="changeAddress">
+                        <form action="{{ route('profile.update') }}" method="POST" class="col-11" id="changeAddress">
                             @csrf
+                            <input type="hidden" name="action" value="changeadd">
                             <div class="form-group mb-4">
                                 <label for="address">Customer Address</label>
                                 <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address', $user->address) }}" required autocomplete="address" autofocus>

@@ -38,9 +38,9 @@
 
     </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm mb-5">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <div class="fs-3 fw-bold fst-italic custom-montserrat">SHOOSH</div>
@@ -109,14 +109,18 @@
             </div>
         </nav>
 
-        <main class="d-flex flex-column min-vh-100">
+        <main>
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                     </div>
             @endif
-            @yield('body')
-            @yield('content')
+
+            <div class="col align-self-center">
+                @yield('body')
+                @yield('content')
+            </div>
+
         </main>
     </div>
 

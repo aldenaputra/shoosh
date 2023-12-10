@@ -28,14 +28,6 @@ class CheckoutController extends BaseController
         ['id' => "xvvRUF", "discount" => 22]
     ]);
 
-    public function updateadd(Request $request)
-    {
-        $user = Auth::user();
-        $user->update($request->only(['address']));
-
-        return redirect()->back()->with('success', 'Profile updated successfully!');
-    }
-
     public function index()
     {
         if (auth()->check()) {

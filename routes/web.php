@@ -56,5 +56,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
 });
 
-Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'processingRequest'])->name('processingRequest');
-Route::post('/profile', [CheckoutController::class, 'updateadd'])->name('checkout.updateadd');
+Route::post('/checkout', [CheckoutController::class, 'processingRequest'])->name('processingRequest');
