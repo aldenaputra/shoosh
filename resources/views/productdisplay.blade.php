@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('head')
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
@@ -9,7 +9,7 @@
     <ul class="horizontal-list" id="categoryList">
         <li class="category-item{{ !request()->has('category') ? ' active' : '' }}">
             <a href="{{ route('productdisplay') }}">All</a>
-        </li>   
+        </li>
         <li class="category-item{{ request('category') === 'men' ? ' active' : '' }}">
             <a href="{{ route('productdisplay', ['category' => 'men']) }}">Men</a>
         </li>
@@ -23,9 +23,9 @@
 
     <div class="displaycont">
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="d-flex gap-5 row justify-content-center">
                 @foreach ($shoes as $sh)
-                    <div class="col-md-3 mb-4">
+                    <div class="col-md-3 mb-3">
                         <div class="card" style="width: 18rem;">
                             <a href="{{ route('productdetail', ['id' => $sh->id, 'category' => request('category')]) }}" class="card-link">
                                 <img src="{{ asset($sh->image) }}" class="card-img-top" alt="...">

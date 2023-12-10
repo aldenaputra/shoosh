@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.app')
 
 @section('head')
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card-body" style="line-height: 1.5;">
-                                <p> </p> 
+                                <p> </p>
                                 <p> </p>
                                 <h5 class="card-title" style="font-weight: bold; font-size: 22px;">{{ $shoe->name }}</h5>
                                 <p class="card-text" style="font-weight: 500; font-size: 20px;">{{ $shoe->type }} - {{ $shoe->size_EU }}</p>
