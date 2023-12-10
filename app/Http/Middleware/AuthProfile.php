@@ -16,12 +16,12 @@ class AuthProfileMiddleware
      */
 
     public function handle(Request $request, Closure $next)
-{
-    if (!Auth::check()) {
-        return redirect('/login');
-    }
+    {
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
 
-    return $next($request);
-}
+        return $next($request);
+    }
 
 }

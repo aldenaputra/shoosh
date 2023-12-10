@@ -23,4 +23,9 @@ class shoe extends Model
     public function brands() {
         return $this->belongsTo(Brand::class);
     }
+
+    public function th()
+    {
+        return $this->belongsToMany(TransactionHistory::class, 'transaction_histories', 'shoeid', 'id');
+    }
 }

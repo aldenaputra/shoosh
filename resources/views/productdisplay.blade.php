@@ -6,7 +6,7 @@
 @endsection
 
 @section('body')
-    <ul class="horizontal-list" id="categoryList">
+    <ul class="horizontal-list ms-5 ps-3" id="categoryList">
         <li class="category-item{{ !request()->has('category') ? ' active' : '' }}">
             <a href="{{ route('productdisplay') }}">All</a>
         </li>
@@ -21,7 +21,7 @@
         </li>
     </ul>
 
-    <div class="displaycont">
+    <div class="displaycont mb-5">
         <div class="container">
             <div class="d-flex gap-5 row justify-content-center">
                 @foreach ($shoes as $sh)

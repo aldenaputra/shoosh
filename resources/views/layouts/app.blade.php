@@ -38,9 +38,9 @@
 
     </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm mb-5">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <div class="fs-3 fw-bold fst-italic custom-montserrat">SHOOSH</div>
@@ -70,18 +70,19 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
-
-                            {{-- @if (Route::has('cart'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('cart') }}">{{ __('Cart') }}</a>
-                                </li>
-                            @endif --}}
                         @else
-                            {{-- @if (Route::has('cart'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('cart') }}">{{ __('Cart') }}</a>
+                            @if (Route::has('aboutus'))
+                                <li class="nav-item me-3">
+                                    <a class="nav-link" href="{{ route('transaction-history.index') }}">{{ __('About Us') }}</a>
                                 </li>
-                            @endif --}}
+                            @endif
+
+                            @if (Route::has('transaction-history.index'))
+                                <li class="nav-item me-3">
+                                    <a class="nav-link" href="{{ route('transaction-history.index') }}">{{ __('Transaction History') }}</a>
+                                </li>
+                            @endif
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -109,14 +110,18 @@
             </div>
         </nav>
 
-        <main class="d-flex flex-column min-vh-100">
+        <main>
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                     </div>
             @endif
-            @yield('body')
-            @yield('content')
+
+            <div class="col align-self-center">
+                @yield('body')
+                @yield('content')
+            </div>
+
         </main>
     </div>
 

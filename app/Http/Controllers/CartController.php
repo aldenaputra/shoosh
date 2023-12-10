@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\shoe;
 use Illuminate\Http\Request;
 
@@ -11,7 +11,19 @@ class CartController extends Controller
         $shoe = shoe::findOrFail($id);
         $cart = session()->get('cart');
 
+
+        $user = Auth::user();
+        if ($user) {
+            $userId = $user->id;
+        } else {
+            // User is not authenticated
+            $userId = null;
+        }
+
+
         $cart = [
+            'userid' => $userId,
+            'shoeid' => $shoe->id,
             'name' => $shoe->name,
             'image' => $shoe->image,
             'type' => $shoe->type,

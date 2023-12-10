@@ -18,6 +18,13 @@ class ProfileController extends Controller
         $user = Auth::user();
         $user->update($request->only(['name', 'address', 'shoesize']));
 
-        return redirect()->route('profile.show')->with('success', 'Profile updated successfully!');
+        $action = $request->input('action');
+
+        if($action == "changeprofile"){
+            return redirect()->route('profile.show')->with('success', 'Profile updated successfully!');
+        }
+        else{
+            return redirect()->back()->with('success', 'Profile updated successfully!');
+        }
     }
 }

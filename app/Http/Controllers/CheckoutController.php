@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\payment_method;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use App\Models\TransactionHistory;
 
 class CheckoutController extends BaseController
 {
@@ -27,14 +28,6 @@ class CheckoutController extends BaseController
         ['id' => "QUaDc7", "discount" => 18],
         ['id' => "xvvRUF", "discount" => 22]
     ]);
-
-    public function updateadd(Request $request)
-    {
-        $user = Auth::user();
-        $user->update($request->only(['address']));
-
-        return redirect()->back()->with('success', 'Profile updated successfully!');
-    }
 
     public function index()
     {
@@ -134,9 +127,9 @@ class CheckoutController extends BaseController
         if($total_balance == "-1"){
             sleep(1);
             try{
-                return redirect()->route('productdisplay')->with('success', 'payment was made successfully!');
+                return redirect()->route('productdisplay')->with('success', 'Payment was made successfully!');
             }catch(\Exception $e){
-                return redirect()->route('processingRequest')->with('error', 'aa payment failed to be made!');
+                return redirect()->route('processingRequest')->with('error', 'Payment failed to be made!');
             }
         }else{
             sleep(1);
@@ -144,9 +137,22 @@ class CheckoutController extends BaseController
                 $new_balance = $total_balance - $total_payment;
                 $payment_method->balance = $new_balance;
                 $payment_method->save();
-                return redirect()->route('productdisplay')->with('success', 'payment was made successfully!');
+
+                $cart = session()->get('cart', []);
+                $transactionhistory = new TransactionHistory([
+                    'userid' => $cart['userid'],
+                    'shoeid' => $cart['shoeid'],
+                    'quantity' => $cart['quantity'],
+                    'payment_method' => $payment_method->name,
+                    'image' => $cart['image'],
+                    'total' => $total_payment,
+                ]);
+
+                $transactionhistory->save();
+
+                return redirect()->route('productdisplay')->with('success', 'Payment was made successfully!');
             }catch(\Exception $e){
-                return redirect()->route('processingRequest')->with('error', 'bb payment failed to be made!');
+                return redirect()->route('processingRequest')->with('error', 'Payment failed to be made!');
             }
         }
     }

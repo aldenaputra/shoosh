@@ -138,13 +138,13 @@
                                     @endphp
 
                                             <tr>
-                                                <td class="py-4 col-3 text-center mt-5">
-                                                    <img src="{{ asset($cart['image']) }}" alt="img">
+                                                <td class="py-3 col-3 text-center align-middle mt-5">
+                                                    <img src="{{ asset($cart['image']) }}" class="img-fluid" alt="img" style="max-width:30%">
                                                 </td>
-                                                <td class="py-4 col-4 text-center mt-5">{{ $cart['name'] }}</td>
-                                                <td class="py-4 col-2 text-center mt-5">{{ $cart['type'] }}</td>
-                                                <td class="py-4 col-1 text-center mt-5">{{ $cart['quantity'] }}</td>
-                                                <td class="py-4 col-2 text-center mt-5">{{ ($cart['price']) }}</td>
+                                                <td class="py-4 col-4 text-center align-middle mt-5">{{ $cart['name'] }}</td>
+                                                <td class="py-4 col-2 text-center align-middle mt-5">{{ $cart['type'] }}</td>
+                                                <td class="py-4 col-1 text-center align-middle mt-5">{{ $cart['quantity'] }}</td>
+                                                <td class="py-4 col-2 text-center align-middle mt-5">{{ ($cart['price']) }}</td>
                                             </tr>
                                             @php
                                                 $priceAsFloat = floatval(str_replace([','], '', $cart['price']));
@@ -331,8 +331,9 @@
                         <h5 class="modal-title" id="changeaddlabel">Change Address</h5>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('checkout.updateadd') }}" method="POST" class="col-11" id="changeAddress">
+                        <form action="{{ route('profile.update') }}" method="POST" class="col-11" id="changeAddress">
                             @csrf
+                            <input type="hidden" name="action" value="changeadd">
                             <div class="form-group mb-4">
                                 <label for="address">Customer Address</label>
                                 <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address', $user->address) }}" required autocomplete="address" autofocus>

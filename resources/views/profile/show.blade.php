@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center align-items-center min-vh-100">
+    <div class="row justify-content-center align-items-center mb-5">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Profile') }}</div>
@@ -52,6 +52,7 @@
                     <form method="post" action="{{ route('profile.update') }}">
                         @csrf
                         @method('post')
+                        <input type="hidden" name="action" value="changeprofile">
 
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name: ') }}</label>
