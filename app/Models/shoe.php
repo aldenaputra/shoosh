@@ -28,4 +28,6 @@ class shoe extends Model
     {
         return $this->belongsToMany(TransactionHistory::class, 'transaction_histories', 'shoeid', 'id');
     }
+
+    public $timestamps = false;
 }

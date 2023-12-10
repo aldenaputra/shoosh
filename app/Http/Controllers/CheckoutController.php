@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Models\payment_method;
+use App\Models\shoe;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Models\TransactionHistory;

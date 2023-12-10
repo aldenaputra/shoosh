@@ -73,7 +73,7 @@
                         @else
                             @if (Route::has('aboutus'))
                                 <li class="nav-item me-3">
-                                    <a class="nav-link" href="{{ route('transaction-history.index') }}">{{ __('About Us') }}</a>
+                                    <a class="nav-link" href="{{ route('aboutus') }}">{{ __('About Us') }}</a>
                                 </li>
                             @endif
 

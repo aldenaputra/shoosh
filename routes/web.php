@@ -8,6 +8,7 @@ use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\TransactionHistoryController;
 
 
@@ -67,7 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
 // Route::post('/profile', [CheckoutController::class, 'updateadd'])->name('checkout.updateadd');
 Route::post('/checkout', [CheckoutController::class, 'processingRequest'])->name('processingRequest');
 
-Route::get('/aboutus', [CheckoutController::class, 'processingRequest'])->name('aboutus');
+Route::get('/aboutus', [AboutUsController::class, 'viewAboutUs'])->name('aboutus');
 
 Route::post('/review/{id}', [ReviewController::class, 'createReview'])->name('createReview');
 
