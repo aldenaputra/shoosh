@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreign('id_user')->references('id')->on('dummy_users');
             $table->id();
             $table->string('nama_barang');
-            $table->integer('quantity');
+            $table->integer('stock');
             $table->bigInteger('harga_barang');
             $table->boolean('payment_status');
             $table->binary('image');
