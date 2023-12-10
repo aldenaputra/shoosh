@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ShoeController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\ProfileController;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,4 +65,4 @@ Route::group(['middleware' => 'auth'], function () {
 Route::post('/checkout', [CheckoutController::class, 'processingRequest'])->name('processingRequest');
 
 
-Route::get('/aboutus', [CheckoutController::class, 'processingRequest'])->name('aboutus');
+Route::get('/aboutus', [AboutUsController::class, 'viewAboutUs'])->name('aboutus');
