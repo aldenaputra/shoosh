@@ -36,9 +36,9 @@ class CheckoutController extends BaseController
 
         $payment_method = payment_method::all();
 
-        $products = products_in_cart::where('id_user', $id)
-        ->where('payment_status', false)->get();
-        return view('checkout', compact('user', 'products', 'voucher_code', 'payment_method'));
+        // $products = products_in_cart::where('id_user', $id)
+        // ->where('payment_status', false)->get();
+        return view('checkout', compact('user', 'voucher_code', 'payment_method'));
     }
 
     public function processingRequest(Request $request){
@@ -117,6 +117,8 @@ class CheckoutController extends BaseController
         $selected_payment_method = $request->input('selected_payment_method');
         $payment_method = payment_method::where('nama_payment_method', $selected_payment_method)->first();
         $total_balance = $payment_method->total_saldo;
+        $cart = json_decode($request->input('cart'), true);
+        $shoes = products_in_cart::where('id', $cart['id'])->first();
 
         if($total_balance < $total_payment && $total_balance != -1){
             return redirect()->route('processingRequest')->with('error', 'Total balance is lower than the total price!');
@@ -125,6 +127,10 @@ class CheckoutController extends BaseController
         if($total_balance == "-1"){
             sleep(1);
             try{
+                //tambahin buat update payment_status
+                // $shoes->payment_status = true;
+                $shoes->stock = $shoes->stock - $cart['quantity'];
+                $shoes->save();
                 return redirect()->route('welcome')->with('success', 'payment was made successfully!');
             }catch(\Exception $e){
                 return redirect()->route('processingRequest')->with('error', 'payment failed to be made!');
@@ -132,6 +138,11 @@ class CheckoutController extends BaseController
         }else{
             sleep(1);
             try{
+                //tambahin buat update payment_status
+                // $shoes->payment_status = true;
+                $shoes->stock = $shoes->stock - $cart['quantity'];
+                dump($shoes);
+                $shoes->save();
                 $new_balance = $total_balance - $total_payment;
                 $payment_method->total_saldo = $new_balance;
                 $payment_method->save();
