@@ -618,12 +618,12 @@
                                     {{ $transaction->name }} </div>
                             </h5>
                         </div>
-        
-        
+
+
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-        
+
                         <form action="{{ route('createReview', $transaction->id) }}" method="POST" class="ratingReviewForm">
                             @csrf
                             <div class="form-group mb-3">
@@ -636,7 +636,7 @@
                                 @enderror
                             </div>
                             <hr class="seperator">
-        
+
                             <div class="rating">
                                 <label for='form-title'>Give it a rating*</label><br>
                                 <fieldset class="rating-form">
@@ -713,9 +713,9 @@
                                 @enderror
                                 </fieldset>
                             </div>
-        
+
                             <hr class="seperator">
-        
+
                             <div class="form-group mb-3">
                                 <label for='form-title'>Tell Us What You Think*</label><br>
                                 <label for='label-name' class="pb-2 pt-2">Review Title:</label>
@@ -725,7 +725,7 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-        
+
                             <div class="form-group mb-3">
                                 <label for='label-name' class="pb-2">Review:</label>
                                 <textarea class="form-control" name="description" id="description" cols="20" rows="3"></textarea>
@@ -739,7 +739,7 @@
                                     @csrf
                                     <button type="submit" class="btn btn-primary" style="margin-right: 7px">Submit</button>
                                 </form>
-                                
+
                             </div>
                         </form>
                     </div>
@@ -844,14 +844,15 @@
                         </label>
 
                         <hr class="seperator_2">
-                        <div class="d-flex justify-content-end">
-                                <form method="post" action="{{ route('return.update', $transaction->id) }}">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary" style="margin-right: 7px">Yes, return</button>
-                                </form>
-                        </div>
-                        
+
                     </form>
+
+                    <div class="d-flex justify-content-end">
+                        <form method="post" action="{{ route('return.update', $transaction->shoeid) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-primary" style="margin-right: 7px">Yes, return</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
